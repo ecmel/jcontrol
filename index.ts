@@ -52,11 +52,11 @@ export class Application {
         if (!controller) {
             const id = el.getAttribute("data-controller");
             const ctor = this.#ctors.get(id);
-            controller = new ctor(el, parent);
-    
+            controller = new ctor(el, this);
+
             this.#controllers.set(el, controller);
 
-            queueMicrotask(() => controller.created());    
+            queueMicrotask(() => controller.created());
         }
 
         queueMicrotask(() => controller.connected());
@@ -70,6 +70,10 @@ export class Application {
 
     register(id: string, ctor: Class<Controller>) {
         this.#ctors.set(id, ctor);
+    }
+
+    getController<T extends Controller>(el: Element) {
+        return this.#controllers.get(el) as T;
     }
 
     run() {
@@ -88,13 +92,23 @@ export class Application {
 
 export class Controller<T extends Element = Element> {
     #element: T;
+    #application: Application;
 
-    constructor(element: T) {
+    constructor(element: T, application: Application) {
         this.#element = element;
+        this.#application = application;
     }
 
     get element() {
         return this.#element;
+    }
+
+    get application() {
+        return this.#application;
+    }
+
+    getController<T extends Controller>(el: Element) {
+        return this.#application.getController<T>(el);
     }
 
     created() {}
