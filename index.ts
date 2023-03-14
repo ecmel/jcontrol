@@ -72,7 +72,7 @@ export class Application {
         this.#ctors.set(id, ctor);
     }
 
-    getController<T extends Controller>(el: Element) {
+    getController<T extends Controller>(el: Element): T {
         return this.#controllers.get(el) as T;
     }
 
@@ -107,7 +107,7 @@ export class Controller<T extends Element = Element> {
         return this.#application;
     }
 
-    getController<T extends Controller>(el: Element) {
+    getController<T extends Controller>(el: Element): T {
         return this.#application.getController<T>(el);
     }
 
