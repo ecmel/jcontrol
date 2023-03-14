@@ -2,7 +2,7 @@ export type Class<T> = new (...args: any[]) => T;
 
 export class Application {
     #ctors = new Map<string, Class<Controller>>();
-    #controllers = new Map<Element, Controller>();
+    #controllers = new WeakMap<Element, Controller>();
     #observer: MutationObserver;
 
     constructor() {
@@ -47,19 +47,23 @@ export class Application {
     }
 
     #addController(el: Element) {
-        const id = el.getAttribute("data-controller");
-        const ctor = this.#ctors.get(id);
-        const controller = new ctor(el, parent);
+        let controller = this.#controllers.get(el);
 
-        this.#controllers.set(el, controller);
+        if (!controller) {
+            const id = el.getAttribute("data-controller");
+            const ctor = this.#ctors.get(id);
+            controller = new ctor(el, parent);
+    
+            this.#controllers.set(el, controller);
+
+            queueMicrotask(() => controller.created());    
+        }
 
         queueMicrotask(() => controller.connected());
     }
 
     #removeController(el: Element) {
         const controller = this.#controllers.get(el);
-
-        this.#controllers.delete(el);
 
         queueMicrotask(() => controller.disconnected());
     }
@@ -93,6 +97,7 @@ export class Controller<T extends Element = Element> {
         return this.#element;
     }
 
+    created() {}
     connected() {}
     disconnected() {}
 }

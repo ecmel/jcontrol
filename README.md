@@ -38,6 +38,10 @@ import { Controller } from "jcontrol";
 
 export default class extends Controller {
 
+    created() {
+        //        
+    }
+
     connected() {
         //
     }
