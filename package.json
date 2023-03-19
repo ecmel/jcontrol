@@ -19,15 +19,9 @@
   "files": [
     "dist"
   ],
-  "exports": {
-    "default": "./dist/refable.mjs",
-    "require": "./dist/refable.cjs",
-    "import": "./dist/refable.mjs",
-    "node": "./dist/refable.mjs",
-    "types": "./dist/refable.d.ts"
-  },
   "main": "./dist/refable.cjs",
   "module": "./dist/refable.mjs",
+  "types": "./dist/refable.d.ts",
   "scripts": {
     "clean": "git clean -Xdf",
     "format": "prettier --ignore-path .gitignore --write .",
