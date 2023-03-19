@@ -13,7 +13,7 @@ npm install refable-light --save-dev
 Application is the main class for bootstrapping. Controllers are registered on an application instance. For registering glob of controllers please refer to your bundler's documentation.
 
 ```ts
-import { Application } from "jcontrol";
+import { Application } from "refable";
 import Search from "./controllers/search";
 
 const application = new Application();
@@ -32,7 +32,7 @@ Controllers are instances of classes that you register in your application. Each
 ```
 
 ```ts
-import { Controller } from "jcontrol";
+import { Controller } from "refable";
 
 export default class extends Controller {
   created() {
@@ -52,7 +52,7 @@ export default class extends Controller {
 Controller classes are templated so more specific elements can be used if needed.
 
 ```ts
-import { Controller } from "jcontrol";
+import { Controller } from "refable";
 
 export default class extends Controller<HTMLElement> {
   //
