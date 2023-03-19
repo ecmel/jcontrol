@@ -1,11 +1,11 @@
-# jControl
+# Refable Light
 
-Super simple JS controller.
+Lighter version of [Refable](https://github.com/ecmel/refable)
 
 ## Installation
 
 ```bash
-npm install jcontrol --save-dev
+npm install refable-light --save-dev
 ```
 
 ## Application
@@ -28,27 +28,24 @@ application.run();
 Controllers are instances of classes that you register in your application. Each controller class inherits from the Controller base class.
 
 ```html
-<div data-controller="search">
-    
-</div>
+<div data-controller="search"></div>
 ```
 
 ```ts
 import { Controller } from "jcontrol";
 
 export default class extends Controller {
+  created() {
+    //
+  }
 
-    created() {
-        //        
-    }
+  connected() {
+    //
+  }
 
-    connected() {
-        //
-    }
-
-    disconnected() {
-        //
-    }
+  disconnected() {
+    //
+  }
 }
 ```
 
@@ -58,6 +55,6 @@ Controller classes are templated so more specific elements can be used if needed
 import { Controller } from "jcontrol";
 
 export default class extends Controller<HTMLElement> {
-    //
+  //
 }
 ```
