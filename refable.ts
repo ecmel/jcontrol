@@ -1,60 +1,60 @@
 export type Class<T> = new (...args: any[]) => T;
 
 export class Application {
-  #ctors = new Map<string, Class<Controller>>();
-  #controllers = new WeakMap<Element, Controller>();
-  #observer: MutationObserver;
+  private ctors = new Map<string, Class<Controller>>();
+  private controllers = new WeakMap<Element, Controller>();
+  private observer: MutationObserver;
 
   constructor() {
-    this.#observer = new MutationObserver((mutations) =>
-      this.#mutated(mutations)
+    this.observer = new MutationObserver((mutations) =>
+      this.mutated(mutations)
     );
   }
 
-  #mutated(mutations: MutationRecord[]) {
+  private mutated(mutations: MutationRecord[]) {
     mutations.forEach((mutation) => {
-      mutation.removedNodes.forEach((node) => this.#removeNode(node));
-      mutation.addedNodes.forEach((node) => this.#addNode(node));
+      mutation.removedNodes.forEach((node) => this.removeNode(node));
+      mutation.addedNodes.forEach((node) => this.addNode(node));
     });
   }
 
-  #addNode(node: Node) {
+  private addNode(node: Node) {
     if (node.nodeType === Node.ELEMENT_NODE) {
       const el = node as Element;
 
       if (el.hasAttribute("data-controller")) {
-        this.#addController(el);
+        this.addController(el);
       }
 
       el.querySelectorAll("[data-controller]").forEach((el) =>
-        this.#addController(el)
+        this.addController(el)
       );
     }
   }
 
-  #removeNode(node: Node) {
+  private removeNode(node: Node) {
     if (node.nodeType === Node.ELEMENT_NODE) {
       const el = node as Element;
 
       el.querySelectorAll("[data-controller]").forEach((el) =>
-        this.#removeController(el)
+        this.removeController(el)
       );
 
       if (el.hasAttribute("data-controller")) {
-        this.#removeController(el);
+        this.removeController(el);
       }
     }
   }
 
-  #addController(el: Element) {
-    let controller = this.#controllers.get(el);
+  private addController(el: Element) {
+    let controller = this.controllers.get(el);
 
     if (!controller) {
       const id = el.getAttribute("data-controller");
-      const ctor = this.#ctors.get(id);
+      const ctor = this.ctors.get(id);
       controller = new ctor(el, this);
 
-      this.#controllers.set(el, controller);
+      this.controllers.set(el, controller);
 
       queueMicrotask(() => controller.created());
     }
@@ -62,18 +62,18 @@ export class Application {
     queueMicrotask(() => controller.connected());
   }
 
-  #removeController(el: Element) {
-    const controller = this.#controllers.get(el);
+  private removeController(el: Element) {
+    const controller = this.controllers.get(el);
 
     queueMicrotask(() => controller.disconnected());
   }
 
   register(id: string, ctor: Class<Controller>) {
-    this.#ctors.set(id, ctor);
+    this.ctors.set(id, ctor);
   }
 
   getController<T extends Controller>(el: Element): T {
-    return this.#controllers.get(el) as T;
+    return this.controllers.get(el) as T;
   }
 
   ready(resolve: Function) {
@@ -88,9 +88,9 @@ export class Application {
     this.ready(() => {
       document
         .querySelectorAll("[data-controller]")
-        .forEach((el) => this.#addController(el));
+        .forEach((el) => this.addController(el));
 
-      this.#observer.observe(document, {
+      this.observer.observe(document, {
         childList: true,
         subtree: true,
       });
@@ -99,24 +99,24 @@ export class Application {
 }
 
 export class Controller<T extends Element = Element> {
-  #element: T;
-  #application: Application;
+  private _element: T;
+  private _application: Application;
 
   constructor(element: T, application: Application) {
-    this.#element = element;
-    this.#application = application;
+    this._element = element;
+    this._application = application;
   }
 
   get element() {
-    return this.#element;
+    return this._element;
   }
 
   get application() {
-    return this.#application;
+    return this._application;
   }
 
-  getController<T extends Controller>(el: Element): T {
-    return this.#application.getController<T>(el);
+  protected getController<T extends Controller>(el: Element): T {
+    return this._application.getController<T>(el);
   }
 
   created() {}
