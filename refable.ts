@@ -76,8 +76,16 @@ export class Application {
     return this.#controllers.get(el) as T;
   }
 
+  ready(resolve: Function) {
+    if (document.readyState == "loading") {
+      document.addEventListener("DOMContentLoaded", () => resolve());
+    } else {
+      resolve();
+    }
+  }
+
   run() {
-    domReady().then(() => {
+    this.ready(() => {
       document
         .querySelectorAll("[data-controller]")
         .forEach((el) => this.#addController(el));
@@ -114,14 +122,4 @@ export class Controller<T extends Element = Element> {
   created() {}
   connected() {}
   disconnected() {}
-}
-
-function domReady() {
-  return new Promise<void>((resolve) => {
-    if (document.readyState == "loading") {
-      document.addEventListener("DOMContentLoaded", () => resolve());
-    } else {
-      resolve();
-    }
-  });
 }
