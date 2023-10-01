@@ -1,7 +1,7 @@
 {
   "name": "refable-light",
   "displayName": "Refable Light",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Lighter version of Refable.",
   "keywords": [
     "html",
@@ -24,15 +24,16 @@
   "types": "./dist/refable.d.ts",
   "scripts": {
     "clean": "git clean -Xdf",
-    "format": "prettier --ignore-path .gitignore --write .",
+    "format": "prettier --write .",
     "build": "rollup -c",
     "prepack": "npm run clean && npm install && npm run build"
   },
   "devDependencies": {
-    "@rollup/plugin-terser": "^0.4.0",
-    "@rollup/plugin-typescript": "^11.0.0",
-    "prettier": "^2.8.4",
-    "rollup": "^3.19.1",
-    "tslib": "^2.5.0"
+    "@rollup/plugin-terser": "^0.4.3",
+    "@rollup/plugin-typescript": "^11.1.4",
+    "prettier": "^3.0.3",
+    "rollup": "^3.29.4",
+    "tslib": "^2.6.2",
+    "typescript": "^5.2.2"
   }
 }

@@ -7,7 +7,7 @@ export class Application {
 
   constructor() {
     this.observer = new MutationObserver((mutations) =>
-      this.mutated(mutations)
+      this.mutated(mutations),
     );
   }
 
@@ -27,7 +27,7 @@ export class Application {
       }
 
       el.querySelectorAll("[data-controller]").forEach((el) =>
-        this.addController(el)
+        this.addController(el),
       );
     }
   }
@@ -37,7 +37,7 @@ export class Application {
       const el = node as Element;
 
       el.querySelectorAll("[data-controller]").forEach((el) =>
-        this.removeController(el)
+        this.removeController(el),
       );
 
       if (el.hasAttribute("data-controller")) {
@@ -111,8 +111,8 @@ export class Controller<T extends Element = Element> {
     return this._element;
   }
 
-  get application() {
-    return this._application;
+  protected getApplication<T extends Application>(): T {
+    return this._application as T;
   }
 
   protected getController<T extends Controller>(el: Element): T {
