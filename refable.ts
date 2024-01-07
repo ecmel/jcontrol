@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 1986-2023 Ecmel Ercan <ecmel.ercan@gmail.com>
+ * Licensed under the MIT License
+ */
+
 export type Class<T> = new (...args: any[]) => T;
 
 export class Application {
@@ -7,7 +12,7 @@ export class Application {
 
   constructor() {
     this.observer = new MutationObserver((mutations) =>
-      this.mutated(mutations),
+      this.mutated(mutations)
     );
   }
 
@@ -27,7 +32,7 @@ export class Application {
       }
 
       el.querySelectorAll("[data-controller]").forEach((el) =>
-        this.addController(el),
+        this.addController(el)
       );
     }
   }
@@ -37,7 +42,7 @@ export class Application {
       const el = node as Element;
 
       el.querySelectorAll("[data-controller]").forEach((el) =>
-        this.removeController(el),
+        this.removeController(el)
       );
 
       if (el.hasAttribute("data-controller")) {
@@ -53,9 +58,7 @@ export class Application {
       const id = el.getAttribute("data-controller");
       const ctor = this.ctors.get(id);
       controller = new ctor(el, this);
-
       this.controllers.set(el, controller);
-
       queueMicrotask(() => controller.created());
     }
 
