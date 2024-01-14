@@ -13,7 +13,7 @@
   },
   "author": {
     "name": "Ecmel Ercan",
-    "url": "https://github.com/ecmel"
+    "url": "https://ecmel.dev/"
   },
   "license": "MIT",
   "files": [
@@ -33,9 +33,9 @@
   },
   "devDependencies": {
     "@rollup/plugin-terser": "^0.4.4",
-    "@rollup/plugin-typescript": "^11.1.5",
+    "@rollup/plugin-typescript": "^11.1.6",
     "prettier": "^2.8.8",
-    "rollup": "^4.9.4",
+    "rollup": "^4.9.5",
     "rollup-plugin-cleandir": "^2.0.0",
     "tslib": "^2.6.2",
     "typescript": "^5.3.3"
