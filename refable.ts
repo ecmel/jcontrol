@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1986-2023 Ecmel Ercan (https://ecmel.dev/)
+ * Copyright (c) 1986-2024 Ecmel Ercan (https://ecmel.dev/)
  * Licensed under the MIT License
  */
 
@@ -56,19 +56,24 @@ export class Application {
 
     if (!controller) {
       const id = el.getAttribute("data-controller");
-      const ctor = this.ctors.get(id);
-      controller = new ctor(el, this);
-      this.controllers.set(el, controller);
-      queueMicrotask(() => controller.created());
+      if (id) {
+        const ctor = this.ctors.get(id);
+        if (ctor) {
+          controller = new ctor(el, this);
+          this.controllers.set(el, controller);
+          queueMicrotask(() => controller?.created());
+        }
+      }
     }
 
-    queueMicrotask(() => controller.connected());
+    queueMicrotask(() => controller?.connected());
   }
 
   private removeController(el: Element) {
     const controller = this.controllers.get(el);
-
-    queueMicrotask(() => controller.disconnected());
+    if (controller) {
+      queueMicrotask(() => controller.disconnected());
+    }
   }
 
   register(id: string, ctor: Class<Controller>) {

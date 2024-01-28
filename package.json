@@ -1,8 +1,8 @@
 {
   "name": "refable-light",
   "displayName": "Refable Light",
-  "version": "0.0.9",
-  "description": "Lighter version of Refable.",
+  "version": "1.0.0",
+  "description": "Super simple JS controller.",
   "keywords": [
     "html",
     "controller"
@@ -19,6 +19,7 @@
   "files": [
     "dist"
   ],
+  "type": "module",
   "main": "./dist/refable.cjs",
   "module": "./dist/refable.mjs",
   "types": "./dist/refable.d.ts",
@@ -26,7 +27,7 @@
     "clean": "git clean -Xdf",
     "prereset": "npm run clean",
     "reset": "npm install",
-    "update": "ncu -u -x prettier",
+    "update": "npx npm-check-updates -u -x prettier",
     "format": "prettier --ignore-path .gitignore -w --list-different .",
     "build": "rollup -c --forceExit",
     "prepack": "npm run build"
@@ -35,7 +36,7 @@
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^11.1.6",
     "prettier": "^2.8.8",
-    "rollup": "^4.9.5",
+    "rollup": "^4.9.6",
     "rollup-plugin-cleandir": "^2.0.0",
     "tslib": "^2.6.2",
     "typescript": "^5.3.3"
